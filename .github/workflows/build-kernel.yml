@@ -84,7 +84,8 @@ jobs:
         ./configure --enable-optimizations
         make
         sudo make install
-        python2 --version
+        wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+        python2 get-pip.py
         sudo apt upgrade
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
 
