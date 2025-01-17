@@ -15,7 +15,7 @@ jobs:
     permissions:
       contents: write
     name: Build by ${{ github.actor }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
@@ -27,7 +27,7 @@ jobs:
 
     - name: Read the configuration
       run: |
-        CONFIG_ENV=config.properties.example
+        CONFIG_ENV=denniz.config.properties
         echo "KERNEL_SOURCE=$(cat $CONFIG_ENV | grep -w "KERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "KERNEL_SOURCE_BRANCH=$(cat $CONFIG_ENV | grep -w "KERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "KERNEL_CONFIG=$(cat $CONFIG_ENV | grep -w "KERNEL_CONFIG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
@@ -77,15 +77,7 @@ jobs:
         echo "BUILD_TIME=$(TZ=Asia/Shanghai date "+%Y%m%d-%H%M")-UTC+8" >> $GITHUB_ENV
         echo "DEVICE=$(echo ${{ env.KERNEL_CONFIG }} | sed 's!vendor/!!;s/_defconfig//;s/_user//;s/-perf//')" >> $GITHUB_ENV
         sudo apt update
-        sudo apt install -y git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 libncurses-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler rename wget checkinstall libncursesw5-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libffi-dev
-        wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
-        tar -xvf Python-2.7.18.tgz
-        cd Python-2.7.18
-        ./configure --enable-optimizations
-        make
-        sudo make install
-        wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-        python2 get-pip.py
+        sudo apt install -y git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 libncurses-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler rename wget checkinstall lib32ncurses5-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libffi-dev python2 python2-dev
         sudo apt upgrade
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
 
