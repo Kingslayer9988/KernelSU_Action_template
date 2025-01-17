@@ -84,6 +84,7 @@ jobs:
         ./configure --enable-optimizations
         make
         sudo make install
+        python2 --version
         sudo apt upgrade
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
 
